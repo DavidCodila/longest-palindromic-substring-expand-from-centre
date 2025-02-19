@@ -1,34 +1,37 @@
+import java.util.Arrays;
+
 public class Main {
     public static void main(String[] args) {
 
     }
     public static String longestPalindrome(String s) {
         ValidateUserInput.validate(s);
-        if (s.length() <= 1) {
+        int size = s.length();
+        if (size <= 1) {
             return s;
         }
-
-        String temp = s.substring(0, 1);
-        int size = s.length();
+        char[] userInput = s.toCharArray();
+        char[] temp = Arrays.copyOfRange(userInput,0, 1);
         for (int i = 0; i < size - 1; i++) {
-            String oddSizedPalindrome = getLongestPalindromeFromCentreValue(i, i, s);
-            String evenSizedPalindrome = getLongestPalindromeFromCentreValue(i, i + 1, s);
+            char[] oddSizedPalindrome = getLongestPalindromeFromCentreValue(i, i, userInput);
+            char[] evenSizedPalindrome = getLongestPalindromeFromCentreValue(i, i + 1, userInput);
 
-            if (oddSizedPalindrome.length() > temp.length()) {
+            if (oddSizedPalindrome.length > temp.length) {
                 temp = oddSizedPalindrome;
             }
-            if (evenSizedPalindrome.length() > temp.length()) {
+            if (evenSizedPalindrome.length > temp.length) {
                 temp = evenSizedPalindrome;
             }
         }
-        return temp;
+        return String.valueOf(temp);
     }
 
-    private static String getLongestPalindromeFromCentreValue(int left, int right, String s) {
-        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+    private static char[] getLongestPalindromeFromCentreValue(int left, int right, char[] s) {
+        int size = s.length;
+        while (left >= 0 && right < size && s[left] == s[right]) {
             left--;
             right++;
         }
-        return s.substring(left + 1, right);
+        return Arrays.copyOfRange(s, left + 1, right);
     }
 }
